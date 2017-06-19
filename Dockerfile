@@ -170,6 +170,7 @@ RUN mkdir -p /igv && \
 ##############
 ## bedtools ##
 
+WORKDIR /usr/local
 RUN git clone https://github.com/arq5x/bedtools2.git
 WORKDIR /usr/local/bedtools2
 RUN git checkout v2.25.0
