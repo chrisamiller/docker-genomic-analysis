@@ -240,9 +240,7 @@ RUN apt-get install -y --no-install-recommends \
   && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
   && locale-gen en_US.utf8 \
   && /usr/sbin/update-locale LANG=en_US.UTF-8 \
-  && BUILDDEPS="curl \
-    default-jdk \
-    libbz2-dev \
+  && BUILDDEPS="libbz2-dev \
     libcairo2-dev \
     libcurl4-openssl-dev \
     libpango1.0-dev \
@@ -317,14 +315,7 @@ RUN apt-get install -y --no-install-recommends \
   && Rscript -e "install.packages(c('littler', 'docopt'), repo = '$MRAN')" \
   && ln -s /usr/local/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r \
   && ln -s /usr/local/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
-  && ln -s /usr/local/lib/R/site-library/littler/bin/r /usr/local/bin/r \
-  ## Clean up from R source install
-  && cd / \
-  && rm -rf /tmp/* \
-  && apt-get remove --purge -y $BUILDDEPS \
-  && apt-get autoremove -y \
-  && apt-get autoclean -y \
-  && rm -rf /var/lib/apt/lists/*
+  && ln -s /usr/local/lib/R/site-library/littler/bin/r /usr/local/bin/r
 
 ## install r packages, bioconductor, etc ##
 ADD rpackages.R /tmp/
@@ -336,7 +327,16 @@ RUN cd /tmp/ && \
     mv v0.4.tar.gz fishplot_0.4.tar.gz && \
     R CMD INSTALL fishplot_0.4.tar.gz && \
     cd && rm -rf /tmp/fishplot_0.4.tar.gz
-    
+
+## Clean up from R source install
+RUN cd / \
+  && rm -rf /tmp/* \
+  && apt-get remove --purge -y $BUILDDEPS \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && rm -rf /var/lib/apt/lists/*
+
+
 ##################
 # ucsc utilities #
 RUN mkdir -p /tmp/ucsc && \
