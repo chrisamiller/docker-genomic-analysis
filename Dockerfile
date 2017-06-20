@@ -28,7 +28,8 @@ RUN apt-get update -y && apt-get install -y \
     libpng-dev \
     libxml2-dev \
     libssl-dev \
-    libcurl4-openssl-dev
+    libcurl4-openssl-dev \
+    pkg-config
     
 RUN pip install --upgrade pip
 
@@ -196,10 +197,6 @@ RUN wget $URL/$ZIP -O $DST/$ZIP && \
     rm -rf $DST/$FOLDER
 
 
-#Cleanup
-RUN apt-get clean
-
-
 ############################
 # R, bioconductor packages #
 ###########################
@@ -348,3 +345,6 @@ RUN mkdir -p /tmp/ucsc && \
     chmod ugo+x * && \
     mv * /usr/bin/
 
+
+
+RUN apt-get clean
