@@ -108,7 +108,8 @@ RUN apt-get update && apt-get install ant --no-install-recommends -y && \
     cd /usr/ && \
     git config --global http.sslVerify false && \
     git clone --recursive https://github.com/broadinstitute/picard.git && \
-    cd /usr/picard && git checkout tags/${picard_version} && \
+    cd /usr/picard && \
+    git checkout tags/${picard_version} && \
     cd /usr/picard && \
     # Clone out htsjdk. First turn off git ssl verification
     git config --global http.sslVerify false && \
@@ -243,7 +244,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
     xauth \
     xfonts-base \
     xvfb \
-    zlib1g-dev" && \
+    zlib1g-dev && \
     cd /tmp/ \
     ## Download source code
     curl -O https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz && \
@@ -296,7 +297,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
 
    ## install r packages, bioconductor, etc ##
    ADD rpackages.R /tmp/
-   RUN R -f /tmp/rpackages.R &&
+   RUN R -f /tmp/rpackages.R && \
    ## install fishplot ##
    cd /tmp/ && \
     wget https://github.com/chrisamiller/fishplot/archive/v0.4.tar.gz && \
