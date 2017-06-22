@@ -189,7 +189,7 @@ ARG BUILD_DATE
 ENV BUILD_DATE ${BUILD_DATE:-}
 ENV R_VERSION=${R_VERSION:-3.4.0}
 RUN apt-get update && apt-get install -y --no-install-recommends locales && \
-    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen en_US.UTF-8 && \
     LC_ALL=en_US.UTF-8 && \
     LANG=en_US.UTF-8 && \
@@ -241,7 +241,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
     xfonts-base \
     xvfb \
     zlib1g-dev && \
-    cd /tmp/ \
+    cd /tmp/ && \
     ## Download source code
     curl -O https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz && \
     ## Extract source code
@@ -304,7 +304,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
    ## Clean up
    RUN cd / && \
    rm -rf /tmp/* && \
-   apt-get remove --purge -y $BUILDDEPS && \
    apt-get autoremove -y && \
    apt-get autoclean -y && \
    rm -rf /var/lib/apt/lists/* && \
