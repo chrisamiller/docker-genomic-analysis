@@ -186,7 +186,7 @@ RUN mkdir -p /tmp/ucsc && \
 
 ARG R_VERSION
 ARG BUILD_DATE
-ENV BUILD_DATE ${BUILD_DATE:-}
+ENV BUILD_DATE 2017-06-20
 ENV R_VERSION=${R_VERSION:-3.4.0}
 RUN apt-get update && apt-get install -y --no-install-recommends locales && \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
