@@ -5,34 +5,30 @@ LABEL "Image for basic ad-hoc bioinformatic analyses"
 
 #some basic tools
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    wget \
-    git \
-    unzip \
-    zip \
-    bzip2 \
-    g++ \
-    make \
     build-essential \
-    zlib1g-dev \
-    ncurses-dev \
-    python \
-    rsync \
+    bzip2 \
+    curl \
     default-jdk \
     default-jre \
-    unzip \
-    curl \
     emacs \
     emacs-goodies-el \
-    python-pip \
-    python-dev \
-    build-essential \
-    nodejs \
-    libpng-dev \
-    libxml2-dev \
-    libssl-dev \
+    g++ \
+    git \
+    less \
     libcurl4-openssl-dev \
-    pkg-config && \
-    pip install --upgrade pip
+    libpng-dev \
+    libssl-dev \
+    libxml2-dev \
+    make \
+    ncurses-dev \
+    nodejs \
+    pkg-config \
+    python \
+    rsync \
+    unzip \
+    wget \
+    zip \
+    zlib1g-dev
 
 ##############
 #HTSlib 1.3.2#
@@ -78,9 +74,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake /tmp/bam-readcount-0.7.4 && \
     make && \
     rm -rf /tmp/bam-readcount-0.7.4 && \
-    ln -s /opt/bam-readcount/bin/bam-readcount /usr/bin/bam-readcount && \
-    pip install cyvcf2
+    ln -s /opt/bam-readcount/bin/bam-readcount /usr/bin/bam-readcount
 
+#note - this script needs cyvcf - installed in the python secetion!
 COPY bam_readcount_helper.py /usr/bin/bam_readcount_helper.py
 
 ################
@@ -313,3 +309,61 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
    apt-get autoclean -y && \
    rm -rf /var/lib/apt/lists/* && \
    apt-get clean
+
+#################################
+# Python 2 and 3, plus packages
+
+# Configure environment
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+
+# Install conda
+RUN cd /tmp && \
+    mkdir -p $CONDA_DIR && \
+    curl -s https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -o miniconda.sh && \
+    /bin/bash miniconda.sh -f -b -p $CONDA_DIR && \
+    rm miniconda.sh && \
+    $CONDA_DIR/bin/conda config --system --add channels conda-forge && \
+    $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
+    conda clean -tipsy
+
+# Install Python 3 packages available through pip 
+RUN conda install --yes 'pip' && \
+    conda clean -tipsy && \
+    #dependencies sometimes get weird - installing each on it's own line seems to help
+    pip install numpy==1.13.0 && \ 
+    pip install scipy==0.19.0 && \
+    pip install cruzdb==0.5.6 && \
+    pip install cython==0.25.2 && \
+    pip install pyensembl==1.1.0 && \
+    pip install pyfaidx==0.4.9.2 && \
+    pip install pybedtools==0.7.10 && \
+    pip install cyvcf2==0.7.4 && \
+    pip install intervaltree_bio==1.0.1 && \
+    pip install pandas==0.20.2 && \
+    pip install scipy==0.19.0 && \
+    pip install pysam==0.11.2.2 && \
+    pip install seaborn==0.7.1 && \
+    pip install scikit-learn==0.18.2
+
+# Install Python 2 and packages available through conda
+RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
+    conda clean -tipsy && \
+    source activate python2 && \
+    #dependencies sometimes get weird - installing each on it's own line seems to help
+    pip install numpy==1.13.0 && \ 
+    pip install scipy==0.19.0 && \
+    pip install cruzdb==0.5.6 && \
+    pip install cython==0.25.2 && \
+    pip install pyensembl==1.1.0 && \
+    pip install pyfaidx==0.4.9.2 && \
+    pip install pybedtools==0.7.10 && \
+    pip install cyvcf2==0.7.4 && \
+    pip install intervaltree_bio==1.0.1 && \
+    pip install pandas==0.20.2 && \
+    pip install scipy==0.19.0 && \
+    pip install pysam==0.11.2.2 && \
+    pip install seaborn==0.7.1 && \
+    pip install scikit-learn==0.18.2 && \
+    source deactivate
+
