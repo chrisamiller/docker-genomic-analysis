@@ -345,10 +345,10 @@ RUN conda install --yes 'pip' && \
     pip install seaborn==0.7.1 && \
     pip install scikit-learn==0.18.2
 
-# Install Python 2 and packages available through conda
+# Install Python 2 
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
     conda clean -tipsy && \
-    source activate python2 && \
+    /bin/bash -c "source activate python2 && \
     #dependencies sometimes get weird - installing each on it's own line seems to help
     pip install numpy==1.13.0 && \ 
     pip install scipy==0.19.0 && \
@@ -364,5 +364,5 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
     pip install pysam==0.11.2.2 && \
     pip install seaborn==0.7.1 && \
     pip install scikit-learn==0.18.2 && \
-    source deactivate
+    source deactivate"
 
