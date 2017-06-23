@@ -366,3 +366,5 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
     pip install scikit-learn==0.18.2 && \
     source deactivate"
 
+# needed for MGI data mounts
+RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
