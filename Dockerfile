@@ -370,4 +370,4 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
 RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
 
 # some other utils
-RUN apt-get update && apt-get install -y --no-install-recommends awk openssh-client && apt-get clean all
+RUN apt-get update && apt-get install -y --no-install-recommends gawk openssh-client grep && apt-get clean all
