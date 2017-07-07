@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 MAINTAINER Chris Miller <c.a.miller@wustl.edu>
 
-LABEL "Image for basic ad-hoc bioinformatic analyses"
+LABEL Image for basic ad-hoc bioinformatic analyses
 
 #some basic tools
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
@@ -369,5 +369,16 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
 # needed for MGI data mounts
 RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
 
+#set timezone to CDT
+RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+#LSF: Java bug that need to change the /etc/timezone.
+#     The above /etc/localtime is not enough.
+RUN echo "America/Chicago" > /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
 # some other utils
-RUN apt-get update && apt-get install -y --no-install-recommends gawk openssh-client grep && apt-get clean all
+RUN apt-get update && apt-get install -y --no-install-recommends gawk openssh-client grep evince && apt-get clean all
+
+RUN mkdir /tmp/bin
+ENV PATH=/bin:/usr/bin:${PATH}
+
