@@ -8,23 +8,30 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     build-essential \
     bzip2 \
     curl \
+    csh \
     default-jdk \
     default-jre \
     emacs \
     emacs-goodies-el \
+    evince \
     g++ \
+    gawk \
     git \
+    grep \
     less \
     libcurl4-openssl-dev \
     libpng-dev \
     libssl-dev \
     libxml2-dev \
     make \
+    man \
     ncurses-dev \
     nodejs \
+    openssh-client \
     pkg-config \
     python \
     rsync \
+    screen \
     unzip \
     wget \
     zip \
@@ -326,11 +333,11 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     conda clean -tipsy
 
-# Install Python 3 packages available through pip 
+# Install Python 3 packages available through pip
 RUN conda install --yes 'pip' && \
     conda clean -tipsy && \
     #dependencies sometimes get weird - installing each on it's own line seems to help
-    pip install numpy==1.13.0 && \ 
+    pip install numpy==1.13.0 && \
     pip install scipy==0.19.0 && \
     pip install cruzdb==0.5.6 && \
     pip install cython==0.25.2 && \
@@ -345,12 +352,12 @@ RUN conda install --yes 'pip' && \
     pip install seaborn==0.7.1 && \
     pip install scikit-learn==0.18.2
 
-# Install Python 2 
+# Install Python 2
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
     conda clean -tipsy && \
     /bin/bash -c "source activate python2 && \
     #dependencies sometimes get weird - installing each on it's own line seems to help
-    pip install numpy==1.13.0 && \ 
+    pip install numpy==1.13.0 && \
     pip install scipy==0.19.0 && \
     pip install cruzdb==0.5.6 && \
     pip install cython==0.25.2 && \
@@ -370,15 +377,14 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
 RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
 
 #set timezone to CDT
-RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 #LSF: Java bug that need to change the /etc/timezone.
-#     The above /etc/localtime is not enough.
-RUN echo "America/Chicago" > /etc/timezone
-RUN dpkg-reconfigure --frontend noninteractive tzdata
+#/etc/localtime is not enough.
+RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime && \
+    echo "America/Chicago" > /etc/timezone && \
+    dpkg-reconfigure --frontend noninteractive tzdata
 
 # some other utils
 RUN apt-get update && apt-get install -y --no-install-recommends gawk openssh-client grep evince && apt-get clean all
 
 RUN mkdir /tmp/bin
 ENV PATH=/bin:/usr/bin:${PATH}
-
