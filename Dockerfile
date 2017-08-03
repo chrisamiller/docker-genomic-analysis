@@ -21,6 +21,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     less \
     libcurl4-openssl-dev \
     libpng-dev \
+    librsvg2-bin \
     libssl-dev \
     libxml2-dev \
     make \
@@ -350,7 +351,8 @@ RUN conda install --yes 'pip' && \
     pip install scipy==0.19.0 && \
     pip install pysam==0.11.2.2 && \
     pip install seaborn==0.7.1 && \
-    pip install scikit-learn==0.18.2
+    pip install scikit-learn==0.18.2 && \
+    pip install svviz==1.6.1
 
 # Install Python 2
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
@@ -383,8 +385,3 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime && \
     echo "America/Chicago" > /etc/timezone && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
-# some other utils
-RUN apt-get update && apt-get install -y --no-install-recommends gawk openssh-client grep evince && apt-get clean all
-
-RUN mkdir /tmp/bin
-ENV PATH=/bin:/usr/bin:${PATH}
