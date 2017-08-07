@@ -385,3 +385,5 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime && \
     echo "America/Chicago" > /etc/timezone && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
+#todo - move this up to top for next major rebuild
+RUN apt-get update && apt-get install -y lsof && apt-get clean all
