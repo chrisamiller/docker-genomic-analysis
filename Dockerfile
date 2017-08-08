@@ -385,3 +385,6 @@ RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
 RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime && \
     echo "America/Chicago" > /etc/timezone && \
     dpkg-reconfigure --frontend noninteractive tzdata
+
+#UUID is needed to be set for some applications
+RUN dbus-uuidgen >/etc/machine-id
