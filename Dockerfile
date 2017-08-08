@@ -387,4 +387,5 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
 #UUID is needed to be set for some applications
+RUN apt-get update && apt-get install -y dbus && apt-get clean all
 RUN dbus-uuidgen >/etc/machine-id
