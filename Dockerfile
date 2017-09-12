@@ -374,7 +374,10 @@ RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 'pip' && \
     pip install pysam==0.11.2.2 && \
     pip install seaborn==0.7.1 && \
     pip install scikit-learn==0.18.2 && \
+    pip install openpyxl==2.4.8 && \
     source deactivate"
+
+COPY tsv2xlsx.py /usr/bin/tsv2xlsx.py
 
 # needed for MGI data mounts
 RUN apt-get update && apt-get install -y libnss-sss && apt-get clean all
