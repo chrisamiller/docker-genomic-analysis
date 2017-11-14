@@ -30,6 +30,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     ncurses-dev \
     nodejs \
     openssh-client \
+    pdftk \
     pkg-config \
     python \
     rsync \
