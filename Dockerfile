@@ -53,8 +53,9 @@ RUN wget https://github.com/samtools/htslib/releases/download/1.3.2/htslib-1.3.2
     ./configure  --enable-plugins --prefix=$HTSLIB_INSTALL_DIR && \
     make && \
     make install && \
-    cp $HTSLIB_INSTALL_DIR/lib/libhts.so* /usr/lib/ && \
-    ln -s $HTSLIB_INSTALL_DIR/bin/tabix /usr/bin/tabix
+    cp $HTSLIB_INSTALL_DIR/lib/libhts.so* /usr/lib/
+    #&& \
+#    ln -s $HTSLIB_INSTALL_DIR/bin/tabix /usr/bin/tabix
 
 ################
 #Samtools 1.3.1#
