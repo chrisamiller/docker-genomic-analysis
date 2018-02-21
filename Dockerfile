@@ -233,6 +233,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
     libpango1.0-dev \
     libjpeg-dev \
     libicu-dev \
+    libmariadb-client-lgpl-dev \
+    libmysqlclient-dev \
     libpcre3-dev \
     libpng-dev \
     libreadline-dev \
