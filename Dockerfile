@@ -70,7 +70,8 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1
     make && \
     make install && \
     cd / && \
-    rm -rf /tmp/samtools-1.3.1
+    rm -rf /tmp/samtools-1.3.1 && \
+    ln -s /opt/samtools/bin/* /usr/bin/
 
 ###############
 #bam-readcount#
