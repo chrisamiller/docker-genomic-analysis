@@ -13,6 +13,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     default-jre \
     emacs \
     emacs-goodies-el \
+    ess \
     evince \
     g++ \
     gawk \
@@ -359,6 +360,7 @@ RUN conda install --yes 'pip' && \
     pip install pysam==0.11.2.2 && \
     pip install seaborn==0.7.1 && \
     pip install scikit-learn==0.18.2 && \
+    pip install openpyxl==2.4.8 && \
     pip install svviz==1.6.1
 
 # Install Python 2
