@@ -1,0 +1,79 @@
+#!/bin/bash
+
+
+function usage
+{
+    echo ""
+    echo "usage: bwait -s <seconds> -n <name to grep> -m message"
+    echo ""
+    echo "  -n | --name      required - name (or number) of job to grep from bjobs"
+    echo "  -s | --seconds   frequency of polling (in seconds)"
+    echo "                   Default 300 (5 min)"
+    echo "  -d | --delay     wait for N seconds before checking, to give the"
+    echo "                   jobs time to get into the queue"
+    echo "  -q | --quiet     suppress messages, wait silently"
+    echo "  -m | --message   pop up a notification when the jobs are done"
+    echo "                    - standard notification requires notify-send:"
+    echo "                      (sudo apt-get install libnotify-bin)"
+    echo "                    - as a fallback uses zenity popups"
+    echo ""
+    exit 1
+}
+
+
+if [[ "$1" == "" ]];then
+    usage
+fi
+
+while [[ "$1" != "" ]]; do
+    case $1 in
+        -s | --seconds )        shift
+                                seconds=$1
+                                ;;
+        -d | --delay )          shift
+                                delay=$1
+                                ;;
+        -n | --name )           shift
+                                name=$1
+				;;
+        -m | --message )        shift
+                                message=$1
+				;;
+        -q | --quiet)           quiet=true
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+
+if [[ $name == "" ]];then
+    usage
+fi
+if [[ $seconds == "" ]];then
+    seconds=300;
+fi
+if [[ $delay != "" ]];then
+    sleep $delay;
+fi
+
+num=$(bjobs | /bin/grep $name | wc -l)
+while [[ $num -gt 0 ]];do
+    if [[ $quiet == "" ]];then
+      echo "$num instances still running";
+    fi
+    sleep $seconds;
+    let num=$(bjobs | /bin/grep $name | wc -l)
+done
+if [[ $message != "" ]];then
+   #use lib-notify if it exists
+   if [[ $(which notify-send) != "" ]];then
+       notify-send -t 3000 "Job Done" "$message" -i /usr/share/pixmaps/gnome-term.png
+   #else use zenity
+   else
+      zenity --info --text "Job Done\n$message"
+   fi
+fi

@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -z "$2" ];then
+    head -n 1 $1 | /usr/bin/perl -pe 's/\t/\n/g' | cat -n
+else
+    head -n $2 $1 | tail -n 1 | /usr/bin/perl -pe 's/\t/\n/g' | cat -n
+fi

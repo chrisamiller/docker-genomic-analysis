@@ -1,0 +1,2 @@
+#!/bin/bash
+perl -pe 's/\n/,/g' | perl -pe 's/,$//g'

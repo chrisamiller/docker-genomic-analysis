@@ -1,0 +1,2 @@
+#!/bin/bash
+paste <(header $1) <(tail -n +2 $1 | header) | column -t
