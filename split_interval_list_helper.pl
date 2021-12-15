@@ -1,6 +1,6 @@
 use File::Copy;
 
-my $retval = system('/usr/bin/java', '-jar', '/usr/picard/picard.jar', 'IntervalListTools', @ARGV);
+my $retval = system('gatk', 'IntervalListTools', @ARGV);
 exit $retval if $retval != 0;
 
 my $i = 1;
