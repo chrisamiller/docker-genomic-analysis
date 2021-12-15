@@ -13,6 +13,7 @@ Basic docker image for ad-hoc genomic analyses - combines a lot of the tools tha
     dir.create(devlib)
     x <- .libPaths()
     .libPaths(c(devlib,x))
-    rm(x,devlib)```
+    rm(x,devlib)
+    ```
     
 This is great for quickly prototyping, but don't forget that if you're sharing code with others, you'll need to create a new container with the proper libraries installed so they can also use it!
