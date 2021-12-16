@@ -114,6 +114,9 @@ RUN mkdir -p /tmp/ucsc && \
 # a few misc useful utilities:
 ADD utilities/* /usr/bin/
 
+#install google cloud stuff
+RUN curl -sSL https://sdk.cloud.google.com > /tmp/gcloud_installer.sh && bash /tmp/gcloud_installer.sh --install-dir=/opt/gcloud --disable-prompts
+
 #set timezone to CDT
 #LSF: Java bug that need to change the /etc/timezone.
 #/etc/localtime is not enough.

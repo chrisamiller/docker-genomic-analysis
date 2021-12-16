@@ -22,6 +22,7 @@ This is great for quickly prototyping and exploring data, but don't forget that 
  - bam-readcount
  - GATK (and picard tools)
  - FastQC
+ - Google cloud SDK
  - R 4.11 and packages including:
    - BioCManager
    - data.table
@@ -40,7 +41,7 @@ This is great for quickly prototyping and exploring data, but don't forget that 
    - GenomicRanges
    - tximport
    - biomaRt
-- Python 3 and packages including:
+ - Python 3 and packages including:
    - numpy
    - scipy
    - cython
