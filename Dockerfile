@@ -116,6 +116,7 @@ ADD utilities/* /usr/bin/
 
 #install google cloud stuff
 RUN curl -sSL https://sdk.cloud.google.com > /tmp/gcloud_installer.sh && bash /tmp/gcloud_installer.sh --install-dir=/opt/gcloud --disable-prompts
+ENV PATH="/opt/gcloud/google-cloud-sdk/bin:${PATH}"
 
 #set timezone to CDT
 #LSF: Java bug that need to change the /etc/timezone.
@@ -134,3 +135,9 @@ RUN cd / && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
+
+#add some aliases - updating PATH doesn't get passed through on cluster sometimes
+RUN ln -s /usr/bin/python3 /usr/bin/python && \
+    ln -s /opt/gatk-4.2.3.0/gatk /usr/bin/gatk && \
+    ln -s /opt/gcloud/google-cloud-sdk/bin/gcloud /usr/bin/gcloud && \
+    ln -s /opt/gcloud/google-cloud-sdk/bin/gsutil /usr/bin/gsutil
