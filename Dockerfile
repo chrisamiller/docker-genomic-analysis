@@ -3,12 +3,13 @@ LABEL Image for basic ad-hoc bioinformatic analyses - c.a.miller@wustl.edu
 
 #add the r repository, so we get binary installs of packages, which are smaller
 #then install a bunch of utilities and r packages
+#note: bsdmainutils installed for 'column' cmd - moves to bsdmainutils in 21.04
 RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ && \
     apt-get update -y && apt-get install -y --no-install-recommends \
     ack-grep \
     bzip2 \
     curl \
-    tmux \
+    bsdmainutils \ 
     dbus \
     default-jre \
     emacs \
@@ -17,14 +18,18 @@ RUN add-apt-repository ppa:c2d4u.team/c2d4u4.0+ && \
     gawk \
     git \
     grep \
+    jq \
     less \
     libnss-sss \
+    libcurl4-openssl-dev \
     lsof \
     nano \
     openssh-client \
     pdftk \
     software-properties-common \
     tabix \
+    tree \
+    tmux \
     rsync \
     unzip \
     wget \
